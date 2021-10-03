@@ -11,6 +11,7 @@
         android:layout_margin="10sp"
         android:background="#33808080"
         android:gravity="start"
+        android:inputType="text"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/table_layout"
         app:layout_constraintLeft_toLeftOf="parent"
