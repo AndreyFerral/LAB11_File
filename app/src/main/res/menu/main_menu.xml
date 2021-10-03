@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_size"
+        android:title="Размер"
+        android:icon="@drawable/ic_baseline_format_size_24"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item android:id="@+id/size8"
+                android:title="8" />
+            <item android:id="@+id/size9"
+                android:title="9" />
+            <item android:id="@+id/size10"
+                android:title="10" />
+        </menu>
+
+    </item>
+
     <item
         android:id="@+id/action_color"
+        android:title="Цвет"
         android:icon="@drawable/ic_baseline_color_lens_24"
         app:showAsAction="ifRoom">
         <menu>
@@ -15,18 +33,6 @@
         </menu>
 
     </item>
-    <item
-        android:id="@+id/action_size"
-        android:icon="@drawable/ic_baseline_format_size_24"
-        app:showAsAction="ifRoom">
-        <menu>
-            <item android:id="@+id/s8"
-                android:title="8" />
-            <item android:id="@+id/s9"
-                android:title="9" />
-            <item android:id="@+id/s10"
-                android:title="10" />
-        </menu>
 
-    </item>
+
 </menu>
