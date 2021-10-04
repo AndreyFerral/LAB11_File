@@ -8,12 +8,14 @@
         android:icon="@drawable/ic_baseline_format_size_24"
         app:showAsAction="ifRoom">
         <menu>
-            <item android:id="@+id/size8"
-                android:title="8" />
-            <item android:id="@+id/size9"
-                android:title="9" />
-            <item android:id="@+id/size10"
-                android:title="10" />
+            <item android:id="@+id/size15"
+                android:title="Шрифт 15" />
+            <item android:id="@+id/size20"
+                android:title="Шрифт 20" />
+            <item android:id="@+id/size25"
+                android:title="Шрифт 25" />
+            <item android:id="@+id/size30"
+                android:title="Шрифт 30" />
         </menu>
 
     </item>
@@ -30,6 +32,8 @@
                 android:title="Зеленый" />
             <item android:id="@+id/blue"
                 android:title="Синий" />
+            <item android:id="@+id/black"
+                android:title="Чёрный" />
         </menu>
 
     </item>

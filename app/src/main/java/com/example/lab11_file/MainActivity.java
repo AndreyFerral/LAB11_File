@@ -2,6 +2,8 @@ package com.example.lab11_file;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,13 +31,43 @@ public class MainActivity extends AppCompatActivity {
     // Описание тэга для логов debug
     private static final String TAG = "myLogs";
 
-    EditText textBox;
+    EditText editText;
+    TextView textView;
+
+    SharedPreferences settings;
+
+    private final String SIZE = "SAVED_SIZE";
+    private final String COLOR = "SAVED_COLOR";
+
+    private int SAVED_SIZE;
+    private int SAVED_COLOR;
+
     private final static String FILE_NAME = "content.txt"; // имя файла
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Получим значения из настроек
+        // Второй параметр - значение по умолчанию
+        settings = getPreferences(MODE_PRIVATE);
+        SAVED_COLOR = settings.getInt(COLOR, Color.BLACK);
+        SAVED_SIZE = settings.getInt(SIZE, 20);
+
+        // Отправляем получаемые значения в LogCat
+        Log.d(TAG, String.valueOf(SAVED_COLOR) + " - полученный цвет");
+        Log.d(TAG, String.valueOf(SAVED_SIZE) + " - полученный шрифт");
+
+        // Найдем компоненты в XML разметке
+        editText = (EditText) findViewById(R.id.editor);
+        textView = (TextView) findViewById(R.id.text);
+
+        // Устанавливаем цвет и размер текста
+        editText.setTextSize(SAVED_SIZE);
+        textView.setTextSize(SAVED_SIZE);
+        editText.setTextColor(SAVED_COLOR);
+        textView.setTextColor(SAVED_COLOR);
     }
 
     // Созданию меню
@@ -48,36 +80,108 @@ public class MainActivity extends AppCompatActivity {
     // Обработчик нажатий на элементы меню
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch(id){
-            case R.id.size8:
-                Toast.makeText(this, "size8", Toast.LENGTH_SHORT).show();
+
+        // Найдем компоненты в XML разметке
+        editText = (EditText) findViewById(R.id.editor);
+        textView = (TextView) findViewById(R.id.text);
+
+        switch(item.getItemId())
+        {
+            case R.id.size15:
+
+                SAVED_SIZE = 15;
+                editText.setTextSize(SAVED_SIZE);
+                textView.setTextSize(SAVED_SIZE);
+
                 return true;
-            case R.id.size9:
-                Toast.makeText(this, "size9", Toast.LENGTH_SHORT).show();
+
+            case R.id.size20:
+
+                SAVED_SIZE = 20;
+                editText.setTextSize(SAVED_SIZE);
+                textView.setTextSize(SAVED_SIZE);
+
                 return true;
-            case R.id.size10:
-                Toast.makeText(this, "size10", Toast.LENGTH_SHORT).show();
+
+            case R.id.size25:
+
+                SAVED_SIZE = 25;
+                editText.setTextSize(SAVED_SIZE);
+                textView.setTextSize(SAVED_SIZE);
+
                 return true;
+
+            case R.id.size30:
+
+                SAVED_SIZE = 30;
+                editText.setTextSize(SAVED_SIZE);
+                textView.setTextSize(SAVED_SIZE);
+
+                return true;
+
             case R.id.red:
-                Toast.makeText(this, "red", Toast.LENGTH_SHORT).show();
+
+                SAVED_COLOR = Color.RED;
+                editText.setTextColor(SAVED_COLOR);
+                textView.setTextColor(SAVED_COLOR);
+
                 return true;
+
             case R.id.green:
-                Toast.makeText(this, "green", Toast.LENGTH_SHORT).show();
+
+                SAVED_COLOR = Color.GREEN;
+                editText.setTextColor(SAVED_COLOR);
+                textView.setTextColor(SAVED_COLOR);
+
                 return true;
+
             case R.id.blue:
-                Toast.makeText(this, "blue", Toast.LENGTH_SHORT).show();
+
+                SAVED_COLOR = Color.BLUE;
+                editText.setTextColor(SAVED_COLOR);
+                textView.setTextColor(SAVED_COLOR);
+
+                return true;
+
+            case R.id.black:
+
+                SAVED_COLOR = Color.BLACK;
+                editText.setTextColor(SAVED_COLOR);
+                textView.setTextColor(SAVED_COLOR);
+
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Сохраняем цвет и шрифт текста
+        SharedPreferences.Editor prefEditor = settings.edit();
+        prefEditor.putInt(COLOR, SAVED_COLOR);
+        prefEditor.putInt(SIZE, SAVED_SIZE);
+        prefEditor.apply();
+
+        Log.d(TAG, String.valueOf(SAVED_SIZE) + " - отправленный шрифт");
+        Log.d(TAG, String.valueOf(SAVED_COLOR) + " - отправленный цвет");
+        Log.d(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy()");
     }
 
     // Сохранение файла FileWriter
     public void saveTextFileWriter(View view) {
 
         // Получаем текст из EditBox
-        textBox = (EditText) findViewById(R.id.editor);
-        String text = textBox.getText().toString();
+        editText = (EditText) findViewById(R.id.editor);
+        String text = editText.getText().toString();
 
         File file = new File(getFilesDir(), FILE_NAME);
         FileWriter fr = null;
@@ -108,13 +212,13 @@ public class MainActivity extends AppCompatActivity {
     public void saveTextBufferedWriter(View view) {
 
         // Получаем текст из EditBox
-        textBox = (EditText) findViewById(R.id.editor);
-        String text = textBox.getText().toString();
+        editText = (EditText) findViewById(R.id.editor);
+        String text = editText.getText().toString();
 
+        File file = new File(getFilesDir(), FILE_NAME);
         BufferedWriter out = null;
-        try {
 
-            File file = new File(getFilesDir(), FILE_NAME);
+        try {
 
             // true - добавление записи к файлу
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
@@ -139,11 +243,11 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void saveTextFiles(View view) {
 
-        File file = new File(getFilesDir(), FILE_NAME);
-
         // Получаем текст из EditBox
-        textBox = (EditText) findViewById(R.id.editor);
-        String text = textBox.getText().toString();
+        editText = (EditText) findViewById(R.id.editor);
+        String text = editText.getText().toString();
+
+        File file = new File(getFilesDir(), FILE_NAME);
 
         try {
             // Переход на следующую строку происходит автоматически
@@ -168,10 +272,11 @@ public class MainActivity extends AppCompatActivity {
     public void saveTextFileOutputStream(View view) {
 
         FileOutputStream fos = null;
+
         try {
             // Получаем текст из EditBox
-            textBox = (EditText) findViewById(R.id.editor);
-            String text = textBox.getText().toString();
+            editText = (EditText) findViewById(R.id.editor);
+            String text = editText.getText().toString();
 
             // MODE_APPEND - добавление записи к файлу
             fos = openFileOutput(FILE_NAME, MODE_APPEND);
@@ -198,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
     public void deleteFile(View view){
 
         // Очищаем textView
-        TextView textView = (TextView) findViewById(R.id.text);
+        textView = (TextView) findViewById(R.id.text);
         textView.setText("");
 
         // Удаляем файл и отправляем подсказку
@@ -213,7 +318,8 @@ public class MainActivity extends AppCompatActivity {
     public void openText(View view){
 
         FileInputStream fin = null;
-        TextView textView = (TextView) findViewById(R.id.text);
+        textView = (TextView) findViewById(R.id.text);
+
         try {
             fin = openFileInput(FILE_NAME);
             byte[] bytes = new byte[fin.available()];
